@@ -1,0 +1,9 @@
+# This file keeps the emotion_images directory structure in git
+# Add your emotion images to the respective subdirectories:
+# - happy/
+# - sad/
+# - angry/
+# - surprise/
+# - fear/
+# - disgust/
+# - neutral/
