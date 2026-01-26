@@ -1,17 +1,17 @@
-# 🎭 Hamster Face Recognition - Emotion Detection & Image Display
+#  Hamster Face Recognition - Emotion Detection & Image Display
 
 **Academic Project | Polis University**
 
 A real-time emotion recognition application that uses advanced face recognition technology to detect human emotions from webcam feed and displays corresponding images based on the detected emotional state.
 
-## 🎓 Project Information
+##  Project Information
 
 - **Institution**: Polis University
 - **Project Type**: Academic Project
 - **Domain**: Computer Vision, Artificial Intelligence, Human-Computer Interaction
 - **Technologies**: Python, Deep Learning, Computer Vision, GUI Development
 
-## 📋 Project Overview
+##  Project Overview
 
 **Hamster Face Recognition** is an intelligent Python application developed as an academic project for Polis University. This project demonstrates the practical application of computer vision and deep learning technologies to create an interactive emotion-based image display system. The application combines real-time video processing, facial expression analysis, and dynamic content display to showcase the capabilities of modern AI in understanding and responding to human emotions.
 
@@ -25,13 +25,13 @@ The application captures live video from a webcam, analyzes facial expressions u
 
 ### Key Features
 
-- 🎥 **Real-time Emotion Detection**: Continuous analysis of facial expressions from webcam feed
-- 🎨 **Dynamic Image Display**: Shows random images from emotion-specific folders based on detected emotions
-- 🖥️ **User-Friendly GUI**: Clean interface with live camera feed, emotion display, and image viewer
-- 🧠 **Advanced AI Models**: Uses pre-trained deep learning models for accurate emotion recognition
-- 📊 **Confidence Scoring**: Displays emotion detection confidence levels
-- 🎯 **Multi-Emotion Support**: Recognizes 7 different emotions (happy, sad, angry, surprise, fear, disgust, neutral)
-- ⚡ **Two Implementation Options**: Full-featured version and lightweight alternative
+-  **Real-time Emotion Detection**: Continuous analysis of facial expressions from webcam feed
+-  **Dynamic Image Display**: Shows random images from emotion-specific folders based on detected emotions
+-  **User-Friendly GUI**: Clean interface with live camera feed, emotion display, and image viewer
+-  **Advanced AI Models**: Uses pre-trained deep learning models for accurate emotion recognition
+-  **Confidence Scoring**: Displays emotion detection confidence levels
+-  **Multi-Emotion Support**: Recognizes 7 different emotions (happy, sad, angry, surprise, fear, disgust, neutral)
+-  **Two Implementation Options**: Full-featured version and lightweight alternative
 
 ### Learning Objectives
 
@@ -53,7 +53,7 @@ This project demonstrates understanding and practical implementation of:
 - **Software Engineering**: Demonstrates project structure and documentation practices
 - **Research Projects**: Foundation for emotion recognition research and development
 
-## 🏗️ Repository Structure
+##  Repository Structure
 
 ```
 HamsterFaceRecognition/
@@ -97,7 +97,7 @@ HamsterFaceRecognition/
 | `.gitignore` | Excludes venv, user images, models, and cache files from version control |
 | `GITHUB_SETUP.md` | Step-by-step guide for uploading project to GitHub |
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Prerequisites
 
@@ -187,7 +187,7 @@ python main_simple.py   # Simple version
 - **Simple Version**: Uses FER (Facial Expression Recognition) library
 - **Supported Emotions**: Happy, Sad, Angry, Surprise, Fear, Disgust, Neutral
 
-## ⚙️ Configuration
+##  Configuration
 
 ### Customization Options
 
@@ -206,7 +206,7 @@ To add new emotion categories:
 2. Add images to the folder
 3. Update the emotion list in `main.py` or `main_simple.py`
 
-## 🐛 Troubleshooting
+##  Troubleshooting
 
 | Issue | Solution |
 |-------|----------|
@@ -217,7 +217,7 @@ To add new emotion categories:
 | **Model download fails** | Check internet connection. Models download on first run (~500MB) |
 | **GPU not detected** | Application runs on CPU by default. GPU support requires CUDA setup |
 
-## 📚 Dependencies
+##  Dependencies
 
 ### Full Version (`requirements.txt`)
 - `opencv-python>=4.8.0` - Computer vision and video processing
@@ -233,15 +233,15 @@ To add new emotion categories:
 - `pillow>=10.0.0` - Image processing
 - `numpy>=1.24.0` - Numerical computing
 
-## 🤝 Contributing
+##  Contributing
 
-Contributions are welcome! Feel free to:
-- Report bugs
-- Suggest new features
-- Submit pull requests
-- Improve documentation
+Isli Basha
+Sidrit Halili
+Serxhio Lekgegaj
+Helena Petro
+Miken Shpati
 
-## 🎓 Academic Context
+##  Academic Context
 
 This project was developed as part of the academic curriculum at **Polis University**. It serves as a demonstration of:
 
@@ -259,7 +259,7 @@ The project encompasses:
 - **Documentation**: Comprehensive documentation for academic and practical use
 - **Testing**: Ensuring functionality across different environments
 
-## 📚 References & Resources
+##  References & Resources
 
 ### Technologies Used
 - **OpenCV**: Computer vision library for image and video processing
@@ -274,11 +274,11 @@ The project encompasses:
 - Human-Computer Interaction design principles
 - Software Engineering methodologies
 
-## 📝 License
+##  License
 
 This project is developed for academic purposes at Polis University and is available for educational use.
 
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 - **Polis University** - For providing the academic framework and support
 - **DeepFace** - For advanced face recognition capabilities
@@ -287,12 +287,12 @@ This project is developed for academic purposes at Polis University and is avail
 - **TensorFlow** - For deep learning framework
 - **Python Community** - For excellent libraries and documentation
 
-## 📧 Contact
+##  Contact
 
-For academic inquiries or project-related questions, please contact through the university channels or open an issue on GitHub.
+For academic inquiries or project-related questions, please contact islibasha1@gmail.com or open an issue on GitHub.
 
 ---
 
-**Developed for Polis University | Academic Project 2024**
+**Developed for Polis University | Academic Project 2026**
 
 **Made with ❤️ for advancing computer vision and human-computer interaction research**
