@@ -2,7 +2,7 @@
 
 **Academic Project | Polis University**
 
-A real-time emotion recognition application that uses face recognition technology to detect and analyze human emotions from webcam feed. The system provides detailed emotion breakdown with confidence scores, making it perfect for understanding how computers can interpret human facial expressions.
+A real-time emotion recognition application that uses face recognition technology to detect and analyze human emotions from webcam feed. The system provides detailed emotion breakdown with confidence scores and attention detection based on eye gaze, making it perfect for understanding how computers can interpret human facial expressions.
 
 ## About This Project
 
@@ -11,10 +11,21 @@ This project was developed as part of my academic work at Polis University. It's
 The project demonstrates several important concepts:
 - Real-time face detection and tracking using computer vision
 - Emotion recognition through pre-trained deep learning models
+- Eye gaze detection for attention monitoring
 - Building interactive user interfaces for displaying complex data
 - Software engineering practices like modular design and proper documentation
 
-When you run the application, it continuously analyzes your facial expressions and displays the dominant emotion it detects, along with a complete breakdown showing confidence levels for all seven emotions it can recognize: happy, sad, angry, surprise, fear, disgust, and neutral.
+When you run the application, it continuously analyzes your facial expressions and displays the dominant emotion it detects, along with a complete breakdown showing confidence levels for all seven emotions it can recognize: happy, sad, angry, surprise, fear, disgust, and neutral. Additionally, it monitors your attention by detecting whether you're looking at the screen based on eye gaze direction.
+
+## Features
+
+- **Real-time Emotion Detection**: Continuous analysis of facial expressions from webcam feed
+- **Attention Detection**: Monitors eye gaze to determine if user is looking at screen
+- **User-Friendly GUI**: Clean interface with live camera feed, emotion display, and attention status
+- **Advanced AI Models**: Uses pre-trained deep learning models for accurate emotion recognition
+- **Confidence Scoring**: Displays emotion detection confidence levels
+- **Multi-Emotion Support**: Recognizes 7 different emotions (happy, sad, angry, surprise, fear, disgust, neutral)
+- **Two Implementation Options**: Full-featured version and lightweight alternative
 
 ## What You'll Learn
 
@@ -22,6 +33,7 @@ Working with this project helps you understand:
 
 - How computer vision processes images and video in real-time
 - How deep learning models can classify emotions from facial features
+- Eye gaze detection and attention monitoring techniques
 - The practical challenges of working with video streams and frame-by-frame analysis
 - Building user interfaces that display complex data in an understandable way
 - Integrating multiple libraries and frameworks into a cohesive application
@@ -52,7 +64,7 @@ HamsterFaceRecognition/
 
 ### File Descriptions
 
-- **main.py**: The full-featured version that uses DeepFace for high-accuracy emotion detection. This version provides the most detailed analysis but requires more system resources.
+- **main.py**: The full-featured version that uses DeepFace for high-accuracy emotion detection. This version provides the most detailed analysis but requires more system resources. Includes attention detection based on eye gaze.
 
 - **main_simple.py**: A lighter alternative that uses the FER library. It's faster and uses fewer resources, making it great for testing or systems with limited capabilities.
 
@@ -130,7 +142,7 @@ python main.py          # For full version
 python main_simple.py   # For simple version
 ```
 
-When the application starts, you'll see a window with your camera feed on the left and an emotion analysis panel on the right. The system will continuously analyze your facial expressions and show you what emotions it detects, along with confidence scores for each emotion.
+When the application starts, you'll see a window with your camera feed on the left and an emotion analysis panel on the right. The system will continuously analyze your facial expressions and show you what emotions it detects, along with confidence scores for each emotion. The attention detection feature will also monitor whether you're looking at the screen based on your eye gaze direction.
 
 ## How It Works
 
@@ -140,23 +152,29 @@ The application follows a straightforward process:
 
 2. **Face Detection**: Each frame is analyzed to find faces. The system uses advanced face detection algorithms (MTCNN or RetinaFace) to locate faces in the video stream.
 
-3. **Emotion Analysis**: Once a face is detected, deep learning models analyze the facial features to determine what emotions are present. These models have been trained on thousands of facial expressions to recognize patterns.
+3. **Eye Detection**: Once a face is detected, the system locates the eyes within the face region using OpenCV's eye cascade classifier.
 
-4. **Emotion Classification**: The system classifies the detected emotions into one of seven categories: happy, sad, angry, surprise, fear, disgust, or neutral. It also calculates confidence scores for each emotion.
+4. **Attention Detection**: The system analyzes the position of the iris/pupil within each eye to determine gaze direction. If both eyes are looking forward (iris centered), the user is considered to be "Looking at screen".
 
-5. **Data Processing**: The application processes all the emotion data, determining which emotion is most dominant and calculating confidence levels for all emotions.
+5. **Emotion Analysis**: Once a face is detected, deep learning models analyze the facial features to determine what emotions are present. These models have been trained on thousands of facial expressions to recognize patterns.
 
-6. **Display**: The GUI updates in real-time, showing the dominant emotion, its confidence score, and a detailed breakdown of all emotions with visual indicators.
+6. **Emotion Classification**: The system classifies the detected emotions into one of seven categories: happy, sad, angry, surprise, fear, disgust, or neutral. It also calculates confidence scores for each emotion.
+
+7. **Data Processing**: The application processes all the emotion data, determining which emotion is most dominant and calculating confidence levels for all emotions.
+
+8. **Display**: The GUI updates in real-time, showing the dominant emotion, its confidence score, a detailed breakdown of all emotions with visual indicators, and the current attention status.
 
 ### Technical Details
 
 The project uses several important technologies:
 
-- **OpenCV**: Handles all the video capture and image processing. It's the industry standard for computer vision work.
+- **OpenCV**: Handles all the video capture and image processing. It's the industry standard for computer vision work. Also used for face and eye detection, and eye gaze analysis.
 
 - **Deep Learning Models**: The full version uses DeepFace, which employs multiple neural network architectures (like VGG-Face and Facenet) to achieve high accuracy. The simple version uses FER, which is optimized for speed.
 
 - **Face Detection**: Uses MTCNN or RetinaFace algorithms to locate faces in video frames. These are state-of-the-art methods that work well even with varying lighting conditions and angles.
+
+- **Eye Gaze Detection**: Uses OpenCV's Haar Cascade classifiers for eye detection and analyzes iris/pupil position within the eye region to determine gaze direction.
 
 - **GUI Framework**: Built with Tkinter, which comes with Python and works across different operating systems.
 
@@ -171,6 +189,8 @@ You can customize the application to suit your needs by modifying the code. Here
 - **Camera Settings**: Adjust the video capture resolution or frame rate
 
 - **Detection Frequency**: Modify how often the system analyzes emotions (currently every 0.5 seconds)
+
+- **Attention Threshold**: Adjust the gaze detection sensitivity (currently 15% offset from eye center)
 
 - **GUI Layout**: Change the window size, component arrangement, or how information is displayed
 
@@ -200,6 +220,11 @@ Here are some common issues you might encounter and how to solve them:
 - Ensure you have good lighting - the system needs to see your face clearly
 - Face the camera directly and make sure nothing is blocking your face
 - Try moving closer to or further from the camera
+
+**Attention detection not working**
+- Make sure your face is well-lit and clearly visible
+- Ensure both eyes are visible to the camera
+- Try adjusting the gaze threshold in the code if detection is too sensitive or not sensitive enough
 
 **Model download fails**
 - Check your internet connection - the models need to be downloaded the first time
@@ -234,7 +259,14 @@ The simple version has fewer dependencies:
 
 ## Contributing
 
-If you'd like to contribute to this project, I'd love to hear from you! You can:
+This project was developed by:
+- Isli Basha
+- Sidrit Halili
+- Serxhio Lekgegaj
+- Helena Petro
+- Miken Shpati
+
+If you'd like to contribute to this project, we'd love to hear from you! You can:
 - Report any bugs you find
 - Suggest new features or improvements
 - Submit pull requests with your changes
@@ -244,7 +276,7 @@ This is an academic project, so contributions that help with learning or researc
 
 ## Academic Context
 
-This project was developed as part of my coursework at Polis University. It represents a practical application of several important computer science concepts:
+This project was developed as part of coursework at Polis University. It represents a practical application of several important computer science concepts:
 
 - Taking theoretical knowledge about computer vision and AI and applying it to solve a real problem
 - Learning how to integrate multiple complex libraries and frameworks
@@ -287,8 +319,10 @@ I'd like to thank:
 
 ## Contact
 
-For questions about this project, academic inquiries, or collaboration opportunities, please reach out through university channels or open an issue on GitHub.
+For academic inquiries or project-related questions, please contact islibasha1@gmail.com or open an issue on GitHub.
 
 ---
 
-**Developed for Polis University | Academic Project 2024**
+**Developed for Polis University | Academic Project 2026**
+
+**Made with ❤️ for advancing computer vision and human-computer interaction research**
