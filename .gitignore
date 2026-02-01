@@ -60,10 +60,6 @@ ehthumbs.db
 Thumbs.db
 Desktop.ini
 
-# Emotion images (user's own images - keep folder structure)
-emotion_images/*
-!emotion_images/.gitkeep
-
 # Logs
 *.log
 logs/

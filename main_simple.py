@@ -1,25 +1,22 @@
 """
 Simpler Emotion Recognition App using FER library
 Alternative version with lighter dependencies
+Academic Project - Polis University
 """
 
 import cv2
 import numpy as np
 from fer import FER
-import os
-from pathlib import Path
-import random
-from PIL import Image, ImageTk
 import tkinter as tk
 from tkinter import ttk
-import threading
 import time
+from PIL import Image, ImageTk
 
 class SimpleEmotionApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("Emotion Recognition App (Simple)")
-        self.root.geometry("1200x700")
+        self.root.title("Emotion Recognition App (Simple) - Polis University")
+        self.root.geometry("900x600")
         
         # Initialize camera
         self.cap = cv2.VideoCapture(0)
@@ -29,11 +26,9 @@ class SimpleEmotionApp:
         # Initialize emotion detector
         self.detector = FER(mtcnn=True)
         
-        # Emotion to image mapping
-        self.emotion_images_dir = Path("emotion_images")
+        # Current emotion state
         self.current_emotion = None
-        self.last_emotion_time = 0
-        self.emotion_change_delay = 2  # seconds before changing image
+        self.current_confidence = 0.0
         
         # Create GUI
         self.setup_gui()
@@ -56,25 +51,43 @@ class SimpleEmotionApp:
         self.camera_label.pack()
         
         # Emotion display frame
-        emotion_frame = ttk.LabelFrame(main_frame, text="Detected Emotion", padding="5")
+        emotion_frame = ttk.LabelFrame(main_frame, text="Detected Emotion", padding="20")
         emotion_frame.grid(row=0, column=1, padx=5, pady=5, sticky=(tk.W, tk.E, tk.N, tk.S))
         
-        self.emotion_label = ttk.Label(emotion_frame, text="No emotion detected", font=("Arial", 16))
-        self.emotion_label.pack(pady=10)
+        # Emotion label
+        self.emotion_label = ttk.Label(
+            emotion_frame, 
+            text="No emotion detected", 
+            font=("Arial", 24, "bold")
+        )
+        self.emotion_label.pack(pady=20)
         
-        # Image display frame
-        image_frame = ttk.LabelFrame(main_frame, text="Emotion Image", padding="5")
-        image_frame.grid(row=0, column=2, padx=5, pady=5, sticky=(tk.W, tk.E, tk.N, tk.S))
+        # Confidence label
+        self.confidence_label = ttk.Label(
+            emotion_frame, 
+            text="Waiting for detection...", 
+            font=("Arial", 14)
+        )
+        self.confidence_label.pack(pady=10)
         
-        self.image_label = ttk.Label(image_frame, text="Waiting for emotion...")
-        self.image_label.pack()
+        # Emotion details frame
+        details_frame = ttk.LabelFrame(emotion_frame, text="Emotion Details", padding="10")
+        details_frame.pack(fill=tk.BOTH, expand=True, pady=10)
+        
+        self.details_text = tk.Text(
+            details_frame, 
+            height=10, 
+            width=30, 
+            font=("Arial", 10),
+            wrap=tk.WORD
+        )
+        self.details_text.pack(fill=tk.BOTH, expand=True)
         
         # Configure grid weights
         self.root.columnconfigure(0, weight=1)
         self.root.rowconfigure(0, weight=1)
-        main_frame.columnconfigure(0, weight=1)
+        main_frame.columnconfigure(0, weight=2)
         main_frame.columnconfigure(1, weight=1)
-        main_frame.columnconfigure(2, weight=1)
         main_frame.rowconfigure(0, weight=1)
         
     def detect_emotion(self, frame):
@@ -87,62 +100,42 @@ class SimpleEmotionApp:
                 dominant_emotion = max(emotion_dict, key=emotion_dict.get)
                 emotion_score = emotion_dict[dominant_emotion] * 100
                 
-                # Map FER emotions to our folder names
-                emotion_mapping = {
-                    'happy': 'happy',
-                    'sad': 'sad',
-                    'angry': 'angry',
-                    'surprise': 'surprise',
-                    'fear': 'fear',
-                    'disgust': 'disgust',
-                    'neutral': 'neutral'
-                }
-                
-                mapped_emotion = emotion_mapping.get(dominant_emotion, 'neutral')
-                
                 # Update if confidence is high enough
                 if emotion_score > 30:
-                    self.current_emotion = mapped_emotion
-                    self.update_emotion_display(mapped_emotion, emotion_score)
-                    self.update_emotion_image(mapped_emotion)
+                    self.current_emotion = dominant_emotion
+                    self.current_confidence = emotion_score
+                    self.update_emotion_display(emotion_dict)
                     
         except Exception as e:
             pass
     
-    def update_emotion_display(self, emotion, score):
-        """Update the emotion label in GUI"""
-        emotion_text = f"{emotion.capitalize()}\nConfidence: {score:.1f}%"
-        self.emotion_label.config(text=emotion_text)
-    
-    def update_emotion_image(self, emotion):
-        """Update the displayed image based on emotion"""
-        current_time = time.time()
-        
-        # Only change image if enough time has passed
-        if current_time - self.last_emotion_time < self.emotion_change_delay:
+    def update_emotion_display(self, emotions):
+        """Update the emotion display in GUI"""
+        if not emotions:
             return
+            
+        # Get dominant emotion
+        dominant_emotion = max(emotions, key=emotions.get)
+        emotion_score = emotions[dominant_emotion] * 100
         
-        self.last_emotion_time = current_time
+        # Update main emotion label
+        emotion_text = f"{dominant_emotion.capitalize()}"
+        self.emotion_label.config(text=emotion_text)
         
-        # Get image for this emotion
-        emotion_dir = self.emotion_images_dir / emotion
-        if emotion_dir.exists():
-            images = list(emotion_dir.glob("*.jpg")) + list(emotion_dir.glob("*.png"))
-            if images:
-                image_path = random.choice(images)
-                self.display_image(image_path)
-    
-    def display_image(self, image_path):
-        """Display an image in the GUI"""
-        try:
-            img = Image.open(image_path)
-            # Resize to fit display
-            img.thumbnail((400, 400), Image.Resampling.LANCZOS)
-            photo = ImageTk.PhotoImage(img)
-            self.image_label.config(image=photo, text="")
-            self.image_label.image = photo  # Keep a reference
-        except Exception as e:
-            print(f"Error displaying image: {e}")
+        # Update confidence label
+        confidence_text = f"Confidence: {emotion_score:.1f}%"
+        self.confidence_label.config(text=confidence_text)
+        
+        # Update details text
+        self.details_text.delete(1.0, tk.END)
+        details = "Emotion Breakdown:\n\n"
+        for emotion, score in sorted(emotions.items(), key=lambda x: x[1], reverse=True):
+            score_percent = score * 100
+            bar_length = int(score_percent / 5)  # Scale to 20 chars max
+            bar = "█" * bar_length
+            details += f"{emotion.capitalize():12} {score_percent:6.1f}% {bar}\n"
+        
+        self.details_text.insert(1.0, details)
     
     def update_camera(self):
         """Update the camera feed display"""
@@ -153,13 +146,22 @@ class SimpleEmotionApp:
             
             # Draw emotion on frame if detected
             if self.current_emotion:
-                cv2.putText(frame, f"Emotion: {self.current_emotion}", 
-                           (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+                emotion_text = f"Emotion: {self.current_emotion.capitalize()}"
+                confidence_text = f"Confidence: {self.current_confidence:.1f}%"
+                
+                # Draw background rectangle for text
+                cv2.rectangle(frame, (10, 10), (400, 80), (0, 0, 0), -1)
+                
+                # Draw emotion text
+                cv2.putText(frame, emotion_text, 
+                           (15, 40), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+                cv2.putText(frame, confidence_text, 
+                           (15, 70), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
             
             # Convert to RGB for tkinter
             frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             frame_pil = Image.fromarray(frame_rgb)
-            frame_pil.thumbnail((400, 300), Image.Resampling.LANCZOS)
+            frame_pil.thumbnail((600, 450), Image.Resampling.LANCZOS)
             frame_tk = ImageTk.PhotoImage(frame_pil)
             
             self.camera_label.config(image=frame_tk, text="")
@@ -175,15 +177,6 @@ class SimpleEmotionApp:
         self.root.destroy()
 
 def main():
-    # Create emotion images directory structure
-    emotion_images_dir = Path("emotion_images")
-    emotion_images_dir.mkdir(exist_ok=True)
-    
-    # Create subdirectories for each emotion
-    emotions = ['happy', 'sad', 'angry', 'surprise', 'fear', 'disgust', 'neutral']
-    for emotion in emotions:
-        (emotion_images_dir / emotion).mkdir(exist_ok=True)
-    
     # Create and run the application
     root = tk.Tk()
     app = SimpleEmotionApp(root)
