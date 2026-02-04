@@ -1,4 +1,4 @@
-# Hamster Face Recognition - Emotion Detection System
+#  Emotion Detection System
 
 **Academic Project | Polis University**
 
